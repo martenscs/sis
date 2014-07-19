@@ -19,6 +19,7 @@ package org.apache.sis.distance;
 
 // SIS imports
 import org.apache.sis.core.LatLon;
+import org.apache.sis.core.LatitudeLongitude;
 
 /**
  * Class to calculate distances on earth surface. Actual calculation code very
@@ -43,7 +44,7 @@ public class DistanceUtils {
    *          the great circle bearing
    * @return a coordinate at the specified bearing
    */
-  public static LatLon getPointOnGreatCircle(double latitude, double longitude,
+  public static LatitudeLongitude getPointOnGreatCircle(double latitude, double longitude,
       double d, double bearing) {
     double angularDistance = d / EARTH_RADIUS;
 

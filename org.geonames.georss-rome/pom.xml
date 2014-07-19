@@ -7,9 +7,8 @@
 		<version>0.2.0-SNAPSHOT</version>
 		<relativePath>../build</relativePath>
 	</parent>
-	<artifactId>org.apache.sis.sis-core</artifactId>
+	<groupId>org.geonames.georss-rome</groupId>
+	<artifactId>org.geonames.georss-rome</artifactId>
+	<version>0.9.8-SNAPSHOT</version>
 	<packaging>eclipse-plugin</packaging>
-	<build>
-		<sourceDirectory>src/main/java</sourceDirectory>
-	</build>
 </project>

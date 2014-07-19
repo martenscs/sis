@@ -28,7 +28,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 //SIS imports
-import org.apache.sis.core.LatLon;
+import org.apache.sis.core.LatitudeLongitude;
 
 //ROME imports
 import com.sun.syndication.feed.module.georss.GeoRSSModule;
@@ -42,7 +42,7 @@ import com.sun.syndication.feed.rss.Item;
 public class GeoRSSData implements QuadTreeData {
 
 	private String filename;
-	private LatLon latLon;
+	private LatitudeLongitude latLon;
 
 	/**
 	 * Creates a GeoRSSData object that stores the name of the file that the
@@ -53,7 +53,7 @@ public class GeoRSSData implements QuadTreeData {
 	 * @param latLon
 	 *            geo location of the entry
 	 */
-	public GeoRSSData(String filename, LatLon latLon) {
+	public GeoRSSData(String filename, LatitudeLongitude latLon) {
 		this.filename = filename;
 		this.latLon = latLon;
 	}
@@ -81,7 +81,7 @@ public class GeoRSSData implements QuadTreeData {
    * @see org.apache.sis.storage.QuadTreeData#getLatLon()
    */
   @Override
-  public LatLon getLatLon() {
+  public LatitudeLongitude getLatLon() {
     return this.latLon;
   }
 

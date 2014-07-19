@@ -23,9 +23,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 //SIS imports
-import org.apache.sis.core.LatLon;
 import org.apache.sis.core.LatLonPointRadius;
 import org.apache.sis.core.LatLonRect;
+import org.apache.sis.core.LatitudeLongitude;
 import org.apache.sis.distance.DistanceUtils;
 
 /**
@@ -322,7 +322,7 @@ public class QuadTree {
    * @return a list of QuadTreeData that are within the given radius from the
    *         point
    */
-  public List<QuadTreeData> queryByPointRadius(final LatLon point,
+  public List<QuadTreeData> queryByPointRadius(final LatitudeLongitude point,
       final double radiusKM) {
     LatLonPointRadius pr = new LatLonPointRadius(point, radiusKM);
     return queryByPointRadius(point, radiusKM, this.root,
@@ -330,7 +330,7 @@ public class QuadTree {
             EARTH_MAX_Y), pr.getRectangularRegionApproximation(360));
   }
 
-  private List<QuadTreeData> queryByPointRadius(final LatLon point,
+  private List<QuadTreeData> queryByPointRadius(final LatitudeLongitude point,
       final double radiusKM, final QuadTreeNode node,
       final Rectangle2D nodeRegion, final Rectangle2D searchRegion) {
     List<QuadTreeData> matches = new ArrayList<QuadTreeData>();
@@ -342,8 +342,8 @@ public class QuadTree {
       else {
         QuadTreeData[] data = node.getData();
         for (int i = 0; i < node.getCount(); i++) {
-          if (DistanceUtils.getHaversineDistance(data[i].getLatLon().getLat(), data[i]
-              .getLatLon().getLon(), point.getLat(), point.getLon()) <= radiusKM) {
+          if (DistanceUtils.getHaversineDistance(data[i].getLatLon().getLatitude(), data[i]
+              .getLatLon().getLongitude(), point.getLatitude(), point.getLongitude()) <= radiusKM) {
             matches.add(data[i]);
           }
         }

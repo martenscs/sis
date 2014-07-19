@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: org.apache.sis.sis-core
+Bundle-SymbolicName: org.apache.sis.sis-core;singleton:=true
+Bundle-Version: 0.2.0.qualifier
+Bundle-Vendor: Apache Org.
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ClassPath: .
+Import-Package: com.sun.syndication.feed.module.georss,
+ com.sun.syndication.feed.module.georss.geometries,
+ com.sun.syndication.feed.rss
+Export-Package: org.apache.sis.core;version="0.2.0",
+ org.apache.sis.distance;version="0.2.0",
+ org.apache.sis.storage;version="0.2.0",
+ org.apache.sis.util;version="0.2.0"

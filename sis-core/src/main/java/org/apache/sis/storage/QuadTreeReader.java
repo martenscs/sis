@@ -1,29 +1,27 @@
 /**
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Licensed to the Apache Software Foundation (ASF) under one or more contributor license
+ * agreements. See the NOTICE file distributed with this work for additional information regarding
+ * copyright ownership. The ASF licenses this file to You under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the License. You may obtain a
+ * copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package org.apache.sis.storage;
 
-//JDK imports
+// JDK imports
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-//SIS imports
+// SIS imports
 import org.apache.sis.core.LatLon;
 
 /**
@@ -35,27 +33,23 @@ public class QuadTreeReader {
   /**
    * Loads the quad tree index from file.
    * 
-   * @param directory
-   *          the directory where the index files are located
-   * @param treeConfigFile
-   *          the name of the tree configuration file
-   * @param nodeFile
-   *          the name of the root node file
+   * @param directory the directory where the index files are located
+   * @param treeConfigFile the name of the tree configuration file
+   * @param nodeFile the name of the root node file
    * @return fully loaded QuadTree
    */
-  public static QuadTree readFromFile(final String directory,
-      final String treeConfigFile, final String nodeFile) {
+  public static QuadTree readFromFile(final String directory, final String treeConfigFile,
+      final String nodeFile) {
     QuadTree tree = new QuadTree();
     readConfigFromFile(tree, directory, treeConfigFile);
     readFromFile(tree, tree.getRoot(), directory, nodeFile);
     return tree;
   }
 
-  private static void readConfigFromFile(QuadTree tree, String directory,
-      String treeConfigFile) {
+  private static void readConfigFromFile(QuadTree tree, String directory, String treeConfigFile) {
+    BufferedReader reader = null;
     try {
-      BufferedReader reader = new BufferedReader(new FileReader(directory
-          + treeConfigFile));
+      reader = new BufferedReader(new FileReader(directory + treeConfigFile));
       String line = "";
       while ((line = reader.readLine()) != null) {
         String[] tokens = line.split(";");
@@ -65,22 +59,28 @@ public class QuadTreeReader {
         tree.setDepth(depth);
       }
     } catch (FileNotFoundException e1) {
-      // TODO Auto-generated catch block
+
       e1.printStackTrace();
     } catch (NumberFormatException e) {
-      // TODO Auto-generated catch block
+
       e.printStackTrace();
     } catch (IOException e) {
-      // TODO Auto-generated catch block
+
       e.printStackTrace();
+    } finally {
+      try {
+        reader.close();
+      } catch (IOException e) {
+
+        e.printStackTrace();
+      }
     }
   }
 
-  private static void readFromFile(final QuadTree tree,
-      final QuadTreeNode parent, final String directory, final String filename) {
+  private static void readFromFile(final QuadTree tree, final QuadTreeNode parent,
+      final String directory, final String filename) {
     try {
-      BufferedReader reader = new BufferedReader(new FileReader(directory
-          + filename));
+      BufferedReader reader = new BufferedReader(new FileReader(directory + filename));
       String line = "";
       while ((line = reader.readLine()) != null) {
         String[] tokens = line.split(":");
@@ -98,8 +98,7 @@ public class QuadTreeReader {
             String[] dataTokens = tokens[i].split(";");
             double lat = Double.parseDouble(dataTokens[0]);
             double lon = Double.parseDouble(dataTokens[1]);
-            parent.getChild(quadrant).addData(
-                new GeoRSSData(dataTokens[2], new LatLon(lat, lon)));
+            parent.getChild(quadrant).addData(new GeoRSSData(dataTokens[2], new LatLon(lat, lon)));
             tree.setSize(tree.getSize() + 1);
           }
           tree.setNodeSize(tree.getNodeSize() + 1);
@@ -110,36 +109,34 @@ public class QuadTreeReader {
 
       if (parent.getChild(Quadrant.NW) != null
           && parent.getChild(Quadrant.NW).getNodeType() == NodeType.GRAY) {
-        readFromFile(tree, parent.getChild(Quadrant.NW), directory, "node_"
-            + parent.getChild(Quadrant.NW).getId() + ".txt");
+        readFromFile(tree, parent.getChild(Quadrant.NW), directory,
+            "node_" + parent.getChild(Quadrant.NW).getId() + ".txt");
       }
 
       if (parent.getChild(Quadrant.NE) != null
           && parent.getChild(Quadrant.NE).getNodeType() == NodeType.GRAY) {
-        readFromFile(tree, parent.getChild(Quadrant.NE), directory, "node_"
-            + parent.getChild(Quadrant.NE).getId() + ".txt");
+        readFromFile(tree, parent.getChild(Quadrant.NE), directory,
+            "node_" + parent.getChild(Quadrant.NE).getId() + ".txt");
       }
 
       if (parent.getChild(Quadrant.SW) != null
           && parent.getChild(Quadrant.SW).getNodeType() == NodeType.GRAY) {
-        readFromFile(tree, parent.getChild(Quadrant.SW), directory, "node_"
-            + parent.getChild(Quadrant.SW).getId() + ".txt");
+        readFromFile(tree, parent.getChild(Quadrant.SW), directory,
+            "node_" + parent.getChild(Quadrant.SW).getId() + ".txt");
       }
 
       if (parent.getChild(Quadrant.SE) != null
           && parent.getChild(Quadrant.SE).getNodeType() == NodeType.GRAY) {
-        readFromFile(tree, parent.getChild(Quadrant.SE), directory, "node_"
-            + parent.getChild(Quadrant.SE).getId() + ".txt");
+        readFromFile(tree, parent.getChild(Quadrant.SE), directory,
+            "node_" + parent.getChild(Quadrant.SE).getId() + ".txt");
       }
 
     } catch (FileNotFoundException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     } catch (NumberFormatException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     } catch (IOException e) {
-      // TODO Auto-generated catch block
+
       e.printStackTrace();
     }
   }

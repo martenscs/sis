@@ -32,7 +32,7 @@ import org.apache.sis.distance.DistanceUtils;
  */
 public class LatLonPointRadius {
 
-  private LatLon center;
+  private LatitudeLongitude center;
   private double radius;
 
   /**
@@ -43,7 +43,7 @@ public class LatLonPointRadius {
    * @param radius
    *          the radius of the search region
    */
-  public LatLonPointRadius(LatLon center, double radius) {
+  public LatLonPointRadius(LatitudeLongitude center, double radius) {
     this.center = center;
     this.radius = radius;
   }
@@ -57,9 +57,9 @@ public class LatLonPointRadius {
    * @return an array of LatLon representing the points that estimate the
    *         circular region
    */
-  public LatLon[] getCircularRegionApproximation(int numberOfPoints) {
+  public LatitudeLongitude[] getCircularRegionApproximation(int numberOfPoints) {
     if (this.radius >= DistanceUtils.HALF_EARTH_CIRCUMFERENCE) {
-      LatLon[] points = new LatLon[5];
+      LatitudeLongitude[] points = new LatitudeLongitude[5];
       points[0] = new LatLon(-90.0, -180.0);
       points[1] = new LatLon(90.0, -180.0);
       points[2] = new LatLon(90.0, 180.0);
@@ -68,10 +68,10 @@ public class LatLonPointRadius {
       return points;
     }
     // plus one to add closing point
-    LatLon[] points = new LatLon[numberOfPoints + 1];
+    LatitudeLongitude[] points = new LatitudeLongitude[numberOfPoints + 1];
     for (int i = 0; i < 360; i += (360 / numberOfPoints)) {
-      points[i] = DistanceUtils.getPointOnGreatCircle(this.center.getLat(),
-          this.center.getLon(), radius, i);
+      points[i] = DistanceUtils.getPointOnGreatCircle(this.center.getLatitude(),
+          this.center.getLongitude(), radius, i);
     }
 
     points[numberOfPoints] = points[0];
@@ -93,15 +93,15 @@ public class LatLonPointRadius {
     int numberOfCrossOvers = 0;
 
     Path2D path = new Path2D.Double();
-    LatLon initPT = DistanceUtils.getPointOnGreatCircle(this.center.getLat(),
-        this.center.getLon(), this.radius, 0);
+    LatitudeLongitude initPT = DistanceUtils.getPointOnGreatCircle(this.center.getLatitude(),
+        this.center.getLongitude(), this.radius, 0);
     path.moveTo(initPT.getShiftedLon(), initPT.getShiftedLat());
 
-    LatLon currPT = initPT;
+    LatitudeLongitude currPT = initPT;
     for (int i = 1; i < 360; i++) {
 
-      LatLon pt = DistanceUtils.getPointOnGreatCircle(this.center.getLat(),
-          this.center.getLon(), this.radius, i);
+      LatitudeLongitude pt = DistanceUtils.getPointOnGreatCircle(this.center.getLatitude(),
+          this.center.getLongitude(), this.radius, i);
       path.lineTo(pt.getShiftedLon(), pt.getShiftedLat());
 
       if (dateLineCrossOver(currPT.getNormLon(), pt.getNormLon())) {

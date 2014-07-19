@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/net.martenscs.location.sis_1.0.0.qualifier.jar" id="net.martenscs.location.sis" version="1.0.0.qualifier">
+      <category name="Apache SIS"/>
+   </feature>
+   <category-def name="Apache SIS" label="Apache SIS"/>
+</site>
